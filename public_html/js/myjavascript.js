@@ -1,4 +1,8 @@
-$(document).ready(function() {
+$(document).ready(function(){
+    $("#navigation").load("nav_menu.html");
+});
+
+$(function() {
     particlesJS("particles-js", {
         "particles": {
             "number": {
