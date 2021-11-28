@@ -120,7 +120,7 @@ html,body{
 .title-form {
     max-width: 550px;
 }
-#content, #founder-content, #arpa2inter-content, #origin-content, #aboutus-content, #growth-content{
+#content, #founder-content, #arpa2inter-content, #origin-content, #aboutus-content, #growth-content, #article1-content{
     padding-top:50px;
     flex-grow: 1;
 }
@@ -163,3 +163,11 @@ html,body{
     right: 0;
 }
 
+.code-cmd{
+    background-color: #000000;
+    color:#ffffff
+}
+
+.solid{
+    border-top: 3px solid #555;
+}
