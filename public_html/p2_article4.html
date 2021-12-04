@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Article 4</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/mystyle.css" rel="stylesheet">
+
+</head>
+<body>
+<div id="primary_container">
+
+    <!--There is where the navigation will go-->
+    <div id="navigation">
+
+    </div>
+
+    <!--There is where the body content will go-->
+    <div class="container-fluid" id="article4-content">
+        <!-- OOP Content -->
+        <div class="container text-center">
+            <p class="h1">S.O.L.I.D.</p>
+            <p class="lead text-justify"><br/>
+                SOLID stands for:</p>
+            <ul class="lead text-justify">
+                <li>S - Single-responsiblity Principle</li>
+                <li>O - Open-closed Principle</li>
+                <li>L - Liskov Substitution Principle</li>
+                <li>I - Interface Segregation Principle</li>
+                <li>D - Dependency Inversion Principle</li>
+            </ul>
+            <br/>
+            <p class="h3 text-justify"><b>Single-responsiblity Principle</b></p>
+            <p class="lead text-justify">
+                A class should have one and only one reason to change, meaning that a class should have only one job.
+                <br/>
+                In our example, it is implemented as follows-
+                <br/><br/>
+                The class Addition has only one job to do that is to perform the addition and return the answer.
+            </p>
+            <pre class="text-justify"><code>""" Import Calculation Parent Class Constructor """
+
+from calc_methods.calculation import Calculation
+
+# This is addition method which inherits the calculation class constructor
+
+
+class Addition(Calculation):
+    """ Performs addition between two values coming from Parent Class and gives the results """
+
+    def getresult(self):
+        """ Using self to reference the data contained in the object instance """
+        return self.value_a + self.value_b</code></pre>
+
+            <br/><br/>
+            <p class="h3 text-justify"><b>Open-closed Principle</b></p>
+            <p class="lead text-justify">
+                Software entities (classes, modules, functions, etc.) should be open for extension, but closed for
+                modification.
+                <br/><br/>
+                This means that I should be able to add new functionality without changing my existing code structure,
+                but by adding new code instead. The goal is to change existing, tested code as little as possible to
+                prevent bugs and having to test everything all over again. If this principle is not followed, the result
+                could be a long list of changes in depending classes, regression on existing features, and unnecessary
+                hours of testing.
+                <br/><br/>
+                In our example, our calculator had the following methods implemented-
+            </p>
+            <pre class="text-left"><code>""" import all the methods from calc_methods"""
+from calc_methods.addition import Addition
+from calc_methods.subtraction import Subtraction
+from calc_methods.multiplication import Multiplication
+from calc_methods.division import Division
+
+
+class Calculator:
+    """ Creating a Module Calculator """
+    # result set to 0 for initialization
+    history = []
+
+    @staticmethod
+    def clear_history():
+        """ Clear the history array """
+        Calculator.history.clear()
+
+    @staticmethod
+    def add_calculation_to_history(calculation):
+        """ Appends calculation to history array """
+        Calculator.history.append(calculation)
+
+    @staticmethod
+    def get_first_calculation_history():
+        """ Gets first calculation from history array """
+        return Calculator.history[0]
+
+    @staticmethod
+    def get_last_calculation_added():
+        """ Gets last calculation from history array """
+        return Calculator.history[-1]
+
+    @staticmethod
+    def add_nums(value_a, value_b):
+        """ Subtracts given two numbers and appends the result to history """
+        addition = Addition.create(value_a, value_b).getresult()
+        Calculator.add_calculation_to_history(addition)
+        return Calculator.get_last_calculation_added()
+
+    @staticmethod
+    def subtract_nums(value_a, value_b):
+        """ Subtracts given two numbers and appends the result to history """
+        subtraction = Subtraction.create(value_a, value_b).getresult()
+        Calculator.add_calculation_to_history(subtraction)
+        return Calculator.get_last_calculation_added()
+
+    @staticmethod
+    def multiply_nums(value_a, value_b):
+        """ Multiplies given two numbers and appends the result to history """
+        multiplication = Multiplication.create(value_a, value_b).getresult()
+        Calculator.add_calculation_to_history(multiplication)
+        return Calculator.get_last_calculation_added()
+
+    @staticmethod
+    def divide_nums(value_a, value_b):
+        """ Divides given two numbers and appends the result to history """
+        division = Division.create(value_a, value_b).getresult()
+        Calculator.add_calculation_to_history(division)
+        return Calculator.get_last_calculation_added()
+</code></pre>
+            <p class="text-justify lead">In this adding a new method as follows-</p>
+            <pre class="text-left"><code>    @staticmethod
+    def get_calculation_count():
+        """ Gets number of calculations from history array """
+        return len(Calculator.history)</code></pre>
+
+            <br/><br/>
+            <p class="h3 text-justify"><b>Liskov Substitution Principle</b></p>
+            <p class="lead text-justify">This principle is by Barbara Liskov, who formulated her principle very
+                formally:
+                <br/>
+                “Let φ(x) be a property provable about objects x of type T. Then φ(y) should be true for objects y of
+                type S where S is a subtype of T.”
+                <br/><br/>
+                What this principle means is that objects in a program should be replaceable with instances of their
+                subtypes without altering the correctness of that program. So if you pass a subclass of an abstraction
+                you need to make sure you don’t alter any behavior or state semantics of the parent abstraction.
+            </p>
+            <br/><br/>
+            <p class="h3 text-justify"><b>Interface Segregation Principle</b></p>
+            <p class="lead text-justify">
+                “Clients should not be forced to depend upon interfaces that they do not use.”
+                <br/>
+                If you have a base class with many methods, possibly not all of your subclasses are going to need them,
+                maybe just a few. But due to inheritance, you will be able to call these methods on all the subclasses,
+                even on those that don’t need it. This means a lot of interfaces that are unused, unneeded and will
+                result in bugs when they get accidentally called.
+                <br/>
+                This principle is meant to prevent this from happening. We should make interfaces as small as possible,
+                so that we don’t need to implement functions we don’t need. Instead of one big base class, we should
+                split them into multiple ones. They should only have methods that make sense for each, and then have our
+                subclasses inherit from them.
+            </p>
+            <br/>
+            <p class="h3 text-justify"><b>Dependency Inversion Principle</b></p>
+            <p class="lead text-justify">
+                High-level modules should not depend on low-level modules. Both should depend on abstractions (e.g.
+                interfaces).
+                <br/><br/>
+                Abstractions should not depend on details. Details (concrete implementations) should depend on
+                abstractions
+                <br/><br/>
+                If your code has well-defined abstract interfaces, changing the internal implementation of one class
+                shouldn’t break your code. A class it interacts with should not have knowledge of the inner workings of
+                the other class, and should be unaffected as long as the interfaces are the same.
+                <br/><br/>
+                In our example, the Dependency Inversion Principle is implemented as follows -
+                <br/><br/>
+                Instead of returning the operation value, the value is being returned using an interface method.
+            </p>
+            <p class="lead text-justify"><i>add_nums()</i></p>
+            <pre class="text-left"><code> @staticmethod
+    def add_nums(value_a, value_b):
+        """ Subtracts given two numbers and appends the result to history """
+        addition = Addition.create(value_a, value_b).getresult()
+        Calculator.add_calculation_to_history(addition)
+        return Calculator.get_last_calculation_added()</code></pre>
+            <p class="lead text-justify"><i>get_last_calculation_added()</i></p>
+            <pre class="text-left"><code>@staticmethod
+    def get_last_calculation_added():
+        """ Gets last calculation from history array """
+        return Calculator.history[-1]</code></pre>
+
+            <br/>
+            <p class="lead text-justify">
+                <a class="btn-link" href="https://github.com/aps358/IS601_P2_Demo/tree/article4-SOLID">Click
+                    here</a> to view the files in Github.
+            </p>
+        </div>
+    </div>
+
+    <!--There is where the footer will go-->
+    <div id="footer">
+        <footer class="sticky-footer bg-primary container-fluid mt-auto">
+            <div class="container-fluid">
+                <div class="row text-center">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <span class="text-lead" id="github-link"> <a
+                                href="https://github.com/aps358/KA_History_of_Internet/tree/Project2">GitHub Link</a></span>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <span class="text-lead">&copy; Amey Sawant </span>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <span class="text-lead" id="W3C_Validator"> <a
+                                href="https://validator.w3.org/nu/?doc=http%3A%2F%2Fapshoip2.eastus.azurecontainer.io%2Fp2_article4.html">W3C Validation</a></span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1561436720/particles.js"></script>
+<script src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1561436735/app.js"></script>
+<script src="js/myjavascript.js"></script>
+</body>
+</html>

@@ -200,10 +200,136 @@ TOTAL                                45      0   100%
                 The above gives a summarized report of all the things such as the number of statements present in that
                 file, if missed any statements while testing and the coverage of the program.
                 <br/><br/>
+
+                Testing using external data can be done with the help of CSV files.
+                <br/><br/>
+                The csv files can be read using the <i>pandas</i> library.
+                <br/><br/>
+                It needs to be installed and which can be done using the following command in terminal.
+            </p>
+            <pre class="code-cmd text-left"><code>~ $ pip install pandas</code></pre>
+            <p class="lead text-justify">
+                Or the library can be included in the requirements.txt and the following command can be used.
+            </p>
+            <pre class="code-cmd text-left"><code>~ $ pip install -r requirements.txt</code></pre>
+            <p class="lead text-justify">
+                Once it's installed refer the following code for the implementation of the AAA testing using external
+                data in our Calculator program.
+            </p>
+            <pre class="text-left"><code>
+"""Importing Calculator Class from calculator > calculator_simple.py for Testing"""
+from calculator.calculator_simple import Calculator
+import pandas as pd
+
+csv_data = pd.read_csv('test/data.csv')
+num1 = csv_data['num_1'].values
+num2 = csv_data['num_2'].values
+add = [round(i, 3) for i in csv_data['add_nums'].values]
+sub = [round(i, 3) for i in csv_data['sub_nums'].values]
+multi = [round(i, 3) for i in csv_data['mult_nums'].values]
+div = [round(i, 3) for i in csv_data['div_nums'].values]
+length = len(add)
+
+
+def test_calculator_add():
+    """ To check if calculator addition result is correct """
+    # Arrange
+    calc_obj = Calculator()
+
+    # Act and Assert
+    for i in range(length):
+        assert calc_obj.addition(num1[i], num2[i]) == add[i]
+
+
+def test_calculator_subtract():
+    """ To check if calculator subtraction result is correct """
+    # Arrange
+    calc_obj = Calculator()
+
+    # Act and Assert
+    for i in range(length):
+        assert calc_obj.subtraction(num1[i], num2[i]) == sub[i]
+
+
+def test_calculator_multiply():
+    """ To check if calculator multiplication result is correct """
+    # Arrange
+    calc_obj = Calculator()
+
+    # Act and Assert
+    for i in range(length):
+        assert calc_obj.multiplication(num1[i], num2[i]) == multi[i]
+
+
+def test_calculator_divide():
+    """ To check if calculator division result is correct"""
+    # Arrange
+    calc_obj = Calculator()
+
+    # Act and Assert
+    for i in range(length):
+        assert calc_obj.division(num1[i], num2[i]) == div[i]
+</code></pre>
+            <br/><br/>
+            <p class="lead text-justify">Here, we are reading the data.csv file which contains following data </p>
+            <table class="table text-justify">
+                <thead>
+                <tr>
+                    <th>num_1</th>
+                    <th>num_2</th>
+                    <th>add_nums</th>
+                    <th>sub_nums</th>
+                    <th>mult_nums</th>
+                    <th>div_nums</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>70</td>
+                    <td>48</td>
+                    <td>118</td>
+                    <td>22</td>
+                    <td>3360</td>
+                    <td>1.458333333</td>
+                </tr>
+                <tr>
+                    <td>29</td>
+                    <td>61</td>
+                    <td>90</td>
+                    <td>-32</td>
+                    <td>1769</td>
+                    <td>0.475409836</td>
+                </tr>
+                <tr>
+                    <td>84</td>
+                    <td>25</td>
+                    <td>109</td>
+                    <td>59</td>
+                    <td>2100</td>
+                    <td>3.36</td>
+                </tr>
+                <tr>
+                    <td>38</td>
+                    <td>53</td>
+                    <td>91</td>
+                    <td>-15</td>
+                    <td>2014</td>
+                    <td>0.716981132</td>
+                </tr>
+                <tr>
+                    <td>28</td>
+                    <td>11</td>
+                    <td>39</td>
+                    <td>17</td>
+                    <td>308</td>
+                    <td>2.545454545</td>
+                </tr>
+                </tbody>
+            </table>
+            <p class="lead text-justify">
                 <a class="btn-link" href="https://github.com/aps358/IS601_P2_Demo/tree/article2-AAA_testing">Click
                     here</a> to view the files in Github.
             </p>
-
         </div>
     </div>
 
@@ -214,7 +340,7 @@ TOTAL                                45      0   100%
                 <div class="row text-center">
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <span class="text-lead" id="github-link"> <a
-                                href="https://github.com/aps358/KA_History_of_Internet">GitHub Link</a></span>
+                                href="https://github.com/aps358/KA_History_of_Internet/tree/Project2">GitHub Link</a></span>
                     </div>
 
                     <div class="col-md-4 col-sm-4 col-xs-12">
@@ -223,7 +349,7 @@ TOTAL                                45      0   100%
 
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <span class="text-lead" id="W3C_Validator"> <a
-                                href="https://validator.w3.org/nu/?doc=http%3A%2F%2Faskahistoryofinternet.eastus.azurecontainer.io%2Forigin.html">W3C Validation</a></span>
+                                href="https://validator.w3.org/nu/?doc=http%3A%2F%2Fapshoip2.eastus.azurecontainer.io%2Fp2_article2.html">W3C Validation</a></span>
                     </div>
                 </div>
             </div>

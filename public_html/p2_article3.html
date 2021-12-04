@@ -39,7 +39,243 @@
                 can control the access to its value to make sure your object is always has a valid state.
                 <br/><br/>
                 Let’s take a look at an example to better understand the encapsulation concept.
+                <br/><br/>
+                The class Calculator contains the following methods which are encapsulated in the class.
+            </p>
+            <ul class="lead text-justify">
+                <li>clear_history()
+                <li>add_calculation_to_history()
+                <li>get_first_calculation_history()
+                <li>get_last_calculation_added()
+                <li>get_calculation_count()
+                <li>add_nums()
+                <li>subtract_nums()
+                <li>multiply_nums()
+                <li>divide_nums()
+            </ul>
+            <p class="lead text-justify">Look at the code below for reference -</p>
+            <pre class="text-left"><code>""" import all the methods from calc_methods"""
+from calc_methods.addition import Addition
+from calc_methods.subtraction import Subtraction
+from calc_methods.multiplication import Multiplication
+from calc_methods.division import Division
 
+
+class Calculator:
+    """ Creating a Module Calculator """
+    # result set to 0 for initialization
+    history = []
+
+    @staticmethod
+    def clear_history():
+        """ Clear the history array """
+        Calculator.history.clear()
+
+    @staticmethod
+    def add_calculation_to_history(calculation):
+        """ Appends calculation to history array """
+        Calculator.history.append(calculation)
+
+    @staticmethod
+    def get_first_calculation_history():
+        """ Gets first calculation from history array """
+        return Calculator.history[0]
+
+    @staticmethod
+    def get_last_calculation_added():
+        """ Gets last calculation from history array """
+        return Calculator.history[-1]
+
+    @staticmethod
+    def get_calculation_count():
+        """ Gets number of calculations from history array """
+        return len(Calculator.history)
+
+    @staticmethod
+    def subtract_nums(value_a, value_b):
+        """ Subtracts given two numbers and appends the result to history """
+        subtraction = Subtraction.create(value_a, value_b).getresult()
+        Calculator.add_calculation_to_history(subtraction)
+        return Calculator.get_last_calculation_added()
+
+    @staticmethod
+    def multiply_nums(value_a, value_b):
+        """ Multiplies given two numbers and appends the result to history """
+        multiplication = Multiplication.create(value_a, value_b).getresult()
+        Calculator.add_calculation_to_history(multiplication)
+        return Calculator.get_last_calculation_added()
+
+    @staticmethod
+    def divide_nums(value_a, value_b):
+        """ Divides given two numbers and appends the result to history """
+        division = Division.create(value_a, value_b).getresult()
+        Calculator.add_calculation_to_history(division)
+        return Calculator.get_last_calculation_added()
+</code></pre>
+
+            <br/><br/>
+
+            <p class="h3 text-justify"><b>Inheritance</b></p>
+            <p class="lead text-justify">
+                Inheritance enables us to define a class that takes all the functionality from a parent class and allows
+                us to add more.
+            </p>
+            <p class="lead text-justify">
+                In our example, we are inheriting the class Calculation in the class Addition.
+                <br/><br/>
+                This enables us to call the method create and use it by creating an object of Addition without the need
+                of creating an object for the class Calculation.
+                <br/><br/>
+                The class Calculation -
+            </p>
+            <pre class="text-left"><code>""" Calculation Abstract Class """
+
+
+class Calculation:
+    """ Defining Class Constructor in here """
+
+    # pylint: disable=too-few-public-methods
+
+    def __init__(self, value_a, value_b):
+        # self references the instantiated object of the class
+        self.value_a = value_a
+        self.value_b = value_b
+
+    # Class Factory Method
+    @classmethod
+    def create(cls, value_a, value_b):
+        """ Returning the values back """
+        return cls(value_a, value_b)
+</code></pre>
+
+            <br/><br/>
+            <p class="lead text-justify">
+                The class Addition -
+            </p>
+            <pre class="text-left"><code>""" Import Calculation Parent Class Constructor """
+
+from calc_methods.calculation import Calculation
+
+# This is addition method which inherits the calculation class constructor
+
+
+class Addition(Calculation):
+    """ Performs addition between two values coming from Parent Class and gives the results """
+
+    def getresult(self):
+        """ Using self to reference the data contained in the object instance """
+        return self.value_a + self.value_b
+</code></pre>
+            <br/><br/>
+            <p class="h3 text-justify"><b>Polymorphism</b></p>
+            <p class="lead text-justify">
+                In programming, polymorphism means the same function name (but different signatures) being used for
+                different types.
+                <br/><br/>
+                In our example, polymorphism is implemented as follows.
+                <br/><br/>
+                For each class such as Addition, Subtraction, Multiplication, Division we are defining the method named
+                <i>get_result()</i>, which is performing different things in all the above mentioned respective classes.
+            </p>
+            <br/>
+            <p class="lead text-justify"><i>Addition</i></p>
+            <pre class="text-left"><code>""" Import Calculation Parent Class Constructor """
+
+from calc_methods.calculation import Calculation
+
+# This is addition method which inherits the calculation class constructor
+
+
+class Addition(Calculation):
+    """ Performs addition between two values coming from Parent Class and gives the results """
+
+    def getresult(self):
+        """ Using self to reference the data contained in the object instance """
+        return self.value_a + self.value_b</code></pre>
+            <p class="lead text-justify"><i>Subtraction</i></p>
+            <pre class="text-left"><code>""" Import Calculation Parent Class Constructor """
+
+from calc_methods.calculation import Calculation
+
+# This is subtraction method which inherits the calculation class constructor
+
+
+class Subtraction(Calculation):
+    """ Performs subtraction between two values coming from Parent Class and gives the results """
+
+    def getresult(self):
+        """ Using self to reference the data contained in the object instance """
+        return self.value_a - self.value_b</code></pre>
+            <p class="lead text-justify"><i>Multiplication</i></p>
+            <pre class="text-left"><code>""" Import Calculation Parent Class Constructor """
+
+from calc_methods.calculation import Calculation
+
+# This is multiplication method which inherits the calculation class constructor
+
+
+class Multiplication(Calculation):
+    """ Performs multiply between two values coming from Parent Class and gives the results """
+
+    def getresult(self):
+        """ Using self to reference the data contained in the object instance """
+        return self.value_a * self.value_b</code></pre>
+            <p class="lead text-justify"><i>Division</i></p>
+            <pre class="text-left"><code>""" Import Calculation Parent Class Constructor """
+
+from calc_methods.calculation import Calculation
+
+# This is division method which inherits the calculation class constructor
+
+
+class Division(Calculation):
+    """ Performs division between two values coming from Parent Class and gives the results """
+
+    def getresult(self):
+        """ Using self to reference the data contained in the object instance """
+        return self.value_a / self.value_b</code></pre>
+
+            <br/><br/>
+            <p class="h3 text-justify"><b>Abstraction</b></p>
+            <p class="lead text-justify">
+                Abstraction is used to hide the internal functionality of the function from the users.
+                <br/>The users only interact with the basic implementation of the function, but inner working is hidden.
+                <br/>User is familiar with that "what function does" but they don't know "how it does."
+            </p>
+
+            <p class="lead text-justify">
+                In our example, the class Calculator contains method <i>add_nums()</i> which is calling the method <i>create()</i>
+                of Addition Class and getting the result later on.
+                <br/><br/>
+                The method <i>get_result()</i> contains the actual functionality of the method and which is hidden from the user.
+            </p>
+            <p class="lead text-justify"><i>class Calculator</i></p>
+            <pre class="text-left"><code>@staticmethod
+    def add_nums(value_a, value_b):
+        """ Subtracts given two numbers and appends the result to history """
+        addition = Addition.create(value_a, value_b).getresult()
+        Calculator.add_calculation_to_history(addition)
+        return Calculator.get_last_calculation_added()</code></pre>
+
+            <p class="lead text-justify"><i>class Addition</i></p>
+            <pre class="text-left"><code>""" Import Calculation Parent Class Constructor """
+
+            from calc_methods.calculation import Calculation
+
+            # This is addition method which inherits the calculation class constructor
+
+
+            class Addition(Calculation):
+            """ Performs addition between two values coming from Parent Class and gives the results """
+
+            def getresult(self):
+            """ Using self to reference the data contained in the object instance """
+                return self.value_a + self.value_b</code></pre>
+
+            <br/>
+            <p class="lead text-justify">
+                <a class="btn-link" href="https://github.com/aps358/IS601_P2_Demo/tree/article3-OOP_demo">Click
+                    here</a> to view the files in Github.
             </p>
         </div>
     </div>
@@ -51,7 +287,7 @@
                 <div class="row text-center">
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <span class="text-lead" id="github-link"> <a
-                                href="https://github.com/aps358/KA_History_of_Internet">GitHub Link</a></span>
+                                href="https://github.com/aps358/KA_History_of_Internet/tree/Project2">GitHub Link</a></span>
                     </div>
 
                     <div class="col-md-4 col-sm-4 col-xs-12">
@@ -60,7 +296,7 @@
 
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <span class="text-lead" id="W3C_Validator"> <a
-                                href="https://validator.w3.org/nu/?doc=http%3A%2F%2Faskahistoryofinternet.eastus.azurecontainer.io%2Forigin.html">W3C Validation</a></span>
+                                href="https://validator.w3.org/nu/?doc=http%3A%2F%2Fapshoip2.eastus.azurecontainer.io%2Fp2_article3.html">W3C Validation</a></span>
                     </div>
                 </div>
             </div>
